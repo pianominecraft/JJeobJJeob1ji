@@ -189,7 +189,6 @@ class EventManager : Listener {
                 e.player.addPotionEffect(PotionEffect(PotionEffectType.SPEED, 100, 2, false, false))
                 e.player.playSound(e.player.location, Sound.ENTITY_GENERIC_EAT, 1f, 1f)
                 e.player.sendMessage(text("%aqua%쿠키를 먹으니 힘이 솟아오른다!"))
-                e.isCancelled = true
             }
         }
     }

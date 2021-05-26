@@ -527,7 +527,7 @@ fun text(string: String) : String {
     return s
 }
 var wl = true
-var time = -1
+var time = 0
 var bossbar: BossBar = Bukkit.createBossBar(text("%dark_red%%bold%좀비 해방 %gray%%bold%[ 30 : 00 ]"), BarColor.RED, BarStyle.SOLID)
 val target = HashMap<Player, Player>()
 val intelligentCool = HashMap<UUID, Int>()
