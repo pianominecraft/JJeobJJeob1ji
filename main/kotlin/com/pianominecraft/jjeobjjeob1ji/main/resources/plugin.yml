@@ -1,0 +1,12 @@
+name: JJeobJJeob1ji
+version: 1.3.1
+main: com.pianominecraft.jjeobjjeob1ji.JJeobJJeob1ji
+api-version: 1.16
+
+commands:
+  change:
+  item:
+  start:
+  debugWithChat:
+  debugVariables:
+  hyperVaccine:
