@@ -390,8 +390,8 @@ class JJeobJJeob1ji : JavaPlugin() {
             )
             addRecipe(
                 ShapedRecipe(
-                    NamespacedKey.minecraft("hyper_vaccine"),
-                    Items.HYPER_VACCINE.item
+                    NamespacedKey.minecraft("compacted_vaccine"),
+                    Items.COMPACTED_VACCINE.item
                 ).apply {
                     shape(
                         " V ",
@@ -399,6 +399,36 @@ class JJeobJJeob1ji : JavaPlugin() {
                         " V "
                     )
                     setIngredient('V', RecipeChoice.ExactChoice(Items.VACCINE.item))
+                }
+            )
+            addRecipe(
+                ShapedRecipe(
+                    NamespacedKey.minecraft("hyper_vaccine"),
+                    Items.HYPER_VACCINE.item
+                ).apply {
+                    shape(
+                        "FGF",
+                        "FVF",
+                        "FFF"
+                    )
+                    setIngredient('V', RecipeChoice.ExactChoice(Items.COMPACTED_VACCINE.item))
+                    setIngredient('F', Material.FIREWORK_ROCKET)
+                    setIngredient('G', Material.ENCHANTED_GOLDEN_APPLE)
+                }
+            )
+            addRecipe(
+                ShapedRecipe(
+                    NamespacedKey.minecraft("enchanted_golden_apple"),
+                    Items.COMPACTED_VACCINE.item
+                ).apply {
+                    shape(
+                        "LGL",
+                        "GAG",
+                        "LGL"
+                    )
+                    setIngredient('A', Material.APPLE)
+                    setIngredient('G', Material.GOLD_BLOCK)
+                    setIngredient('L', Material.LAPIS_BLOCK)
                 }
             )
         } // Vaccine

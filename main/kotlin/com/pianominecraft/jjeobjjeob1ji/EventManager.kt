@@ -96,8 +96,9 @@ class EventManager : Listener {
         if (e.entity is Player && e.damager is Player) {
             if (e.entity.name in plugin.zombies && e.damager.name in plugin.zombies) {
                 e.isCancelled = true
+                return
             }
-            if (e.entity.name in plugin.survivors) {
+            else if (e.entity.name in plugin.survivors) {
                 when (e.damager.name) {
                     in plugin.survivors -> {
                         e.isCancelled = true
@@ -139,6 +140,10 @@ class EventManager : Listener {
                     }
                 }
             }
+            else if (e.entity.name in plugin.giantZombies) {
+                e.isCancelled = true
+                (e.entity as Player).damage(e.damage)
+            }
         }
     }
     @EventHandler fun onProjectileLaunch(e: ProjectileLaunchEvent) {
@@ -153,7 +158,7 @@ class EventManager : Listener {
                         e.isCancelled = true
                         return
                     }
-                    if ((e.entity as ThrownPotion).item.itemMeta.displayName == text("%aqua%백신")) {
+                    if ((e.entity as ThrownPotion).item.isSimilar(Items.VACCINE.item) || (e.entity as ThrownPotion).item.isSimilar(Items.COMPACTED_VACCINE.item)) {
                         e.entity.velocity = (e.entity.shooter!! as Player).location.direction
                     }
                 }
@@ -177,6 +182,22 @@ class EventManager : Listener {
                 p.sendTitle(text("%green%회복!"), text("%green%이제 당신은 %white%생존자%green%입니다"), 0, 80, 20)
             }
             e.areaEffectCloud.remove()
+        } else if (e.entity.item == Items.COMPACTED_VACCINE.item) {
+            Bukkit.getOnlinePlayers().forEach { p ->
+                p.spawnParticle(Particle.END_ROD, e.entity.location, 800, 0.0, 0.0, 0.0, 0.4)
+                p.spawnParticle(Particle.TOTEM, e.entity.location, 800, 0.0, 0.0, 0.0, 1.0)
+                p.playSound(e.entity.location, Sound.ITEM_TOTEM_USE, 1f, 1f)
+            }
+            e.entity.getNearbyEntities(6.0, 6.0, 6.0).filterIsInstance<Player>().filter {
+                it.name in plugin.zombies
+            }.forEach { p ->
+                plugin.remove(p.name)
+                plugin.survivors.add(p.name)
+                p.playEffect(EntityEffect.TOTEM_RESURRECT)
+                Bukkit.broadcastMessage(text("%aqua%${p.name}님이 치료되었습니다!"))
+                p.sendTitle(text("%green%회복!"), text("%green%이제 당신은 %white%생존자%green%입니다"), 0, 80, 20)
+            }
+            e.areaEffectCloud.remove()
         }
     }
     @EventHandler fun onEat(e: PlayerItemConsumeEvent) {
@@ -187,6 +208,7 @@ class EventManager : Listener {
                 e.player.sendMessage(text("%aqua%쿠키를 먹으니 힘이 솟아오른다!"))
             }
         }
+        else if (e.item.isSimilar(Items.GOLDEN_APPLE.item)) e.isCancelled = true
     }
     @EventHandler fun onDeath(e: PlayerDeathEvent) {
         if (e.entity.name in plugin.zombies) {

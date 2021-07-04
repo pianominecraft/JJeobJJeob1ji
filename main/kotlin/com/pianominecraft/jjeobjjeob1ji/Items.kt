@@ -51,9 +51,21 @@ enum class Items(val item: ItemStack) {
             addEnchant(Enchantment.MENDING, 1, false)
         }
     }),
+    COMPACTED_VACCINE(ItemStack(Material.LINGERING_POTION).apply {
+        itemMeta = itemMeta.apply {
+            (this as org.bukkit.inventory.meta.PotionMeta).basePotionData = org.bukkit.potion.PotionData(org.bukkit.potion.PotionType.SPEED)
+            setDisplayName(text("%aqua%고농도 백신"))
+            this.addItemFlags(org.bukkit.inventory.ItemFlag.HIDE_POTION_EFFECTS)
+        }
+    }),
     HYPER_VACCINE(ItemStack(Material.FIREWORK_ROCKET).apply {
         itemMeta = itemMeta.apply {
             setDisplayName(text("%dark_red%하이퍼 백신"))
         }
     }),
+    GOLDEN_APPLE(ItemStack(Material.ENCHANTED_GOLDEN_APPLE).apply {
+        itemMeta = itemMeta.apply {
+            setDisplayName(text("%aqua%먹을 수 없는 황금사과"))
+        }
+    })
 }
